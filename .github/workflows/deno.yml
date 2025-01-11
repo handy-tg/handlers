@@ -1,0 +1,25 @@
+name: Lint Deno Module
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: Lint
+        run: deno lint ./
+      - name: Check formatting
+        run: deno fmt --check ./
+      - name: Check types
+        run: deno check --allow-import ./

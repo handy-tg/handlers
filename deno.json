@@ -1,7 +1,7 @@
 {
   "name": "@handy-tg/handlers",
-  "version": "0.1.0",
-  "license" "AGPLv3",
+  "version": "0.1.1",
+  "license": "AGPLv3",
   "imports": {
     "grammy": "https://deno.land/x/grammy@v1.34.0/mod.ts",
     "grammyTypes": "https://deno.land/x/grammy_types@v3.18.0/mod.ts",
