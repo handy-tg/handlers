@@ -141,7 +141,7 @@ export async function isContactChatUpdate(ctx: Context): Promise<boolean> {
 }
 
 /**
- * Forward a message from the admin to the user.
+ * Forward a message from a user to the admin.
  *
  * @remarks
  * Messages that are not sent to topics in in saved contact chat are ignored.
@@ -161,13 +161,13 @@ export async function messageToAdmin(ctx: Context): Promise<void> {
 }
 
 /**
- * Forward a message from a user to the admin.
+ * Forward a message from the admin to the user.
  *
  * @remarks
  * Messages that are not sent to bot's contact chat are ignored.
  *
- * @throws {@link ContactError.NO_CONTACT_CHAT}
- * Thrown if the bot does not have an associated contact chat.
+ * @throws {@link ContactError.NO_TOPIC_USER}
+ * Thrown if the bot doesn't have an user associated with that chat.
  *
  * @public
  */
