@@ -147,8 +147,8 @@ export async function isContactChatUpdate(ctx: Context): Promise<boolean> {
  * Messages that are not sent to topics in in saved contact chat are ignored.
  * Messages from banned users are ignored as well.
  *
- * @throws {@link ContactError.NO_TOPIC_USER}
- * Thrown if the topic the message was sent to does not have an associated chat.
+ * @throws {@link ContactError.NO_CONTACT_CHAT}
+ * Thrown if the bot doesn't have an associated contact chat.
  *
  * @public
  */
