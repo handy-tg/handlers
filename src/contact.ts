@@ -31,6 +31,14 @@ export enum ContactError {
   BOT_NOT_ADMIN = "BOT_NOT_ADMIN",
 }
 
+/**
+ * Returns bot's contact chat.
+ *
+ * @throws {@link ContactError.NO_CONTACT_CHAT}
+ * Thrown if the bot doesn't have a specified contact chat.
+ *
+ * @public
+ */
 export async function getContactChatID(ctx: Context): Promise<number> {
   const kv = await KV.instance.init();
 
