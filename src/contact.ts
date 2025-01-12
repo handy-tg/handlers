@@ -31,7 +31,7 @@ export enum ContactError {
   BOT_NOT_ADMIN = "BOT_NOT_ADMIN",
 }
 
-async function getContactChatID(ctx: Context): Promise<number> {
+export async function getContactChatID(ctx: Context): Promise<number> {
   const kv = await KV.instance.init();
 
   const contactChatID = await kv.get([
