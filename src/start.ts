@@ -14,8 +14,35 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+import type { Context } from "grammy";
+
+import { KV } from "./_kv.ts";
+
+async function getGreeting(ctx: Context): Promise<string> {
+  const kv = await KV.instance.init();
+
+  const greeting = await kv.get([
+    "handy",
+    "handlers",
+    "start",
+    "settings",
+    ctx.me.id,
+    "greeting",
+  ]) as string | null;
+
+  return greeting || "Hello! You can ask your questions here.";
+}
+
 /**
- * Please consult exported methods to see what's available.
+ * Handler to greet the user.
+ *
+ * @remarks
+ * Only replies to private messages.
+ *
+ * @public
  */
-export * as start from "./src/start.ts";
-export * as contact from "./src/contact.ts";
+export async function greet(ctx: Context): Promise<void> {
+  if (ctx.message?.chat.type !== "private") return;
+  const greeting = await getGreeting(ctx);
+  await ctx.reply(greeting);
+}
