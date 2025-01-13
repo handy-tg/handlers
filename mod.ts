@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-/**
- * Please consult exported methods to see what's available.
- */
 export * as start from "./src/start.ts";
 export * as contact from "./src/contact.ts";
+export * as settings from "./src/settings.ts";
