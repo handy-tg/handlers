@@ -17,7 +17,7 @@
 import type { Context } from "grammy";
 
 import { KV } from "./_kv.ts";
-import { getSettingsChatID } from "./settings.ts";
+import { getSettingsChatID, getUsers, setUsers } from "./settings.ts";
 
 export enum StartError {
   NOT_START_SETTINGS = "NOT_START_SETTINGS",
@@ -166,11 +166,15 @@ export async function setGreeting(ctx: Context): Promise<void> {
  * @public
  */
 export async function greet(ctx: Context): Promise<void> {
-  if (ctx.chat?.type !== "private") return;
+  if (ctx.message?.chat.type !== "private") return;
 
   try {
     const greeting = await getGreeting(ctx);
-    await ctx.api.copyMessage(ctx.chat.id, greeting.chatID, greeting.messageID);
+    await ctx.api.copyMessage(
+      ctx.message.chat.id,
+      greeting.chatID,
+      greeting.messageID,
+    );
   } catch (err) {
     if ((err as Error).message === StartError.NO_GREETING_SET) {
       await ctx.reply("Hello! You can ask your questions here.");
@@ -178,4 +182,10 @@ export async function greet(ctx: Context): Promise<void> {
       throw err;
     }
   }
+
+  const users = await getUsers(ctx);
+  if (!users.includes(ctx.message.from.id as number)) {
+    users.push(ctx.message.from.id);
+  }
+  await setUsers(ctx, users);
 }

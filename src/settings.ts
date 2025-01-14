@@ -131,3 +131,43 @@ export async function isSettingsChatUpdate(ctx: Context): Promise<boolean> {
 
   return ctx.chat.id === settingsChatID;
 }
+
+/**
+ * Returns bot's users.
+ *
+ * @public
+ */
+export async function getUsers(ctx: Context): Promise<number[]> {
+  const kv = await KV.instance.init();
+
+  const users = await kv.get([
+    "handy",
+    "handlers",
+    "settings",
+    ctx.me.id,
+    "users",
+  ]) as number[] | null;
+
+  return users || [];
+}
+
+/**
+ * Sets the bot's users.
+ *
+ * @public
+ */
+export async function setUsers(ctx: Context, users: number[]): Promise<void> {
+  const kv = await KV.instance.init();
+
+  await getSettingsChatID(ctx);
+  await kv.set(
+    [
+      "handy",
+      "handlers",
+      "settings",
+      ctx.me.id,
+      "users",
+    ],
+    users,
+  );
+}
