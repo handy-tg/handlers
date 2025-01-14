@@ -195,6 +195,7 @@ export async function messageToAdmin(ctx: Context): Promise<void> {
  */
 export async function messageToUser(ctx: Context): Promise<void> {
   if (ctx.message?.chat.type !== "supergroup") return;
+  if (!ctx.message.is_topic_message) return;
 
   let contactChatID;
 
@@ -206,10 +207,13 @@ export async function messageToUser(ctx: Context): Promise<void> {
   }
 
   if (ctx.message.chat.id !== contactChatID) return;
-  if (!ctx.message.is_topic_message) return;
 
   const topicChatID = await getTopicChatID(ctx, contactChatID);
-  await ctx.copyMessage(topicChatID);
+  await ctx.api.copyMessage(
+    topicChatID,
+    ctx.message.chat.id,
+    ctx.message.message_id,
+  );
 }
 
 /**
