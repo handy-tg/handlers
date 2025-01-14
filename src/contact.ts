@@ -75,8 +75,22 @@ async function getChatTopicID(
   ]) as number | null;
   if (chatTopicID) return chatTopicID;
 
-  const topic = await ctx.api.createForumTopic(contactChatID, "name");
+  const first_name = ctx.message?.from.first_name || "";
+  const last_name = ctx.message?.from.last_name || "";
+  const full_name = `${first_name} ${last_name}`;
+  const username = ctx.message?.from.last_name || "";
+
+  const topic = await ctx.api.createForumTopic(
+    contactChatID,
+    `${full_name} - @${username}`,
+  );
   const topicID = topic.message_thread_id;
+
+  await ctx.api.sendMessage(
+    contactChatID,
+    `Name: ${full_name}\nUsername: ${username}\nID: ${chatID}`,
+    { message_thread_id: topicID },
+  );
 
   await kv.set(
     [
