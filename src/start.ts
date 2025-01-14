@@ -167,6 +167,15 @@ export async function setGreeting(ctx: Context): Promise<void> {
  */
 export async function greet(ctx: Context): Promise<void> {
   if (ctx.chat?.type !== "private") return;
-  const greeting = await getGreeting(ctx);
-  await ctx.api.copyMessage(ctx.chat.id, greeting.chatID, greeting.messageID);
+
+  try {
+    const greeting = await getGreeting(ctx);
+    await ctx.api.copyMessage(ctx.chat.id, greeting.chatID, greeting.messageID);
+  } catch (err) {
+    if ((err as Error).message === StartError.NO_GREETING_SET) {
+      await ctx.reply("Hello! You can ask your questions here.");
+    } else {
+      throw err;
+    }
+  }
 }
